@@ -46,7 +46,7 @@
 
 %%%====================================================================================================================================
 %%ページのレイアウト設定
-%\pagestyle{fancy}
+\pagestyle{fancy}
 \renewcommand{\sectionmark}[1]{\markboth{}{\thesection\ #1}}%                   %\rightmarkにセクション名を格納
 \renewcommand{\subsectionmark}[1]{\markboth{#1}{\rightmark}}%   %\leftmarkにサブセクション名を格納
 %[]は省略可で省略すると{}で指定された内容が偶数ページ奇数のどちらにも適用される.
@@ -265,7 +265,7 @@
   \setlength{\itemsep}{15pt}
 \item 指定されたセクタを読み出す要求があった場合, そのセクタの読み出しに必要な最悪遅延時間を示せ。その際, 最悪遅延時間の結果の導出過程を示すこと。
 \item 1つの円盤上の各トラック名をT1-T30と表現する。今, ホスト計算機から, T20, T5, T25, T13, T1, T19の順にデータの読み込み要求があったとする。この場合, FCFS(First Come First Served)スケジューリングを用いてトラックを読み込んだ場合とSCANスケジューリングを用いて読み込んだ場合のそれぞれのトータルの読み込みに必要な時間を示せ。各トラック内のセクタのアクセス時間に関しては最悪の読み込み時間を想定して計算すること。また, 結果の導出過程に関しても記載すること。初期状態として, ヘッドはT1の位置に移動しているとする。
-\item バッファキャッシュ(Buffer Cache)は磁気ディスク内の頻繁に利用するデータを実メモリ内に格納するオペレーティングシステムの機能である。今, 128バイトのデータを読み込む場合, すべてのデータがバッファキャッシュ上に格納できている場合と, 全く存在しない場合の最悪の読み込み時間を示せ。結果の導出過程に関しても記載すること。ここでは, バッファキャッシュのブロックサイズは64バイトとし, 実メモリ1バイトの読み込み／書き出し時間を1$\mu$秒とする。また, バッファキャッシュ上にデータが存在しない場合は, 磁気ディスクからデータを読み出してメモリに格納するものとする。
+\item バッファキャッシュ(Buffer Cache)は磁気ディスク内の頻繁に利用するデータを実メモリ内に格納するオペレーティングシステムの機能である。今, 128バイトのデータを読み込む場合, すべてのデータがバッファキャッシュ上に格納できている場合と, 全く存在しない場合の最悪の読み込み時間を示せ。結果の導出過程に関しても記載すること。ここでは, バッファキャッシュのブロックサイズは64バイトとし, 実メモリ1メモリの読み込み／書き出し時間を1$\mu$秒とする。また, バッファキャッシュ上にデータが存在しない場合は, 磁気ディスクからデータを読み出してメモリに格納するものとする。
 \item 想定するバッファキャッシュは5ブロック分のメモリが割り当てられるものと考える。ここでは, それぞれのブロックをB1-B5として表現する。また, あるトラック上のセクタS1-S30の一部を読み込む場合を考える。今, S1, S2, S3, S4, S1, S2, S5, S6, S7, S1, S2, S3の順にセクタが読み込まれる場合を考える。この場合, バッファキャッシュを管理するポリシーとしてFIFO(First In First Out)を用いた場合と, LRU(Least Recently Used)を用いた場合で, B1-B5が格納するデータが格納されたセクタ番号がどう変化するかを時系列順に図示せよ。
 \end{enumerate}
 \subsubsection{解答例}
@@ -277,7 +277,7 @@
   \end{eqnarray*}
 \item 各トラック内のセクタのアクセス時間は最悪の読み込み時間を想定するのでセクタの移動は毎回1msかかる. FCFSスケジューリングを用いるので, T1からT20への移動は19回移動する. T20からT5は15回移動し, T5からT25は20回, T25からT13は12回, T13からT1は12回,T1からT19は18回の移動となるので合計で$(19+15+20+12+12+18)=96$回移動することとなる. また各トラックで1回転すると考えれば6回転するので求める答えは
   \begin{eqnarray*}
-    96\times 2+6\times 1=198{\rm ms} 
+    96\times 2+6\times 1=198{\rm ms}
   \end{eqnarray*}
   となる.
 \item すべてのデータがバッファキャッシュ上に格納できている場合はメモリの読み込みだけで済むので, 128$\mu$秒である. 一方で全く存在しない場合の最悪の読み込み時間はヘッドの移動をして読み込みを行いメモリに書き込む作業が2回行われるので, それにかかる時間は
@@ -290,12 +290,154 @@
   \end{eqnarray*}
   となる. 
 \item それぞれのブロックにはB1からB5を順番に格納するものとする. するとFIFOはきた順に格納するので以下のように変化する.
-  %\begin{center}
-   % \begin{tabular}{|c|c|c|c|c|} \hline
-    %  B1&B2&B3&B4&B5\\ \hline
-     % S1&&&& \\ \hline
-    %\end{tabular}
-  %\end{center}
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|} \hline
+      B1&B2&B3&B4&B5\\ \hline\hline
+      S1&&&& \\ \hline
+      S1&S2&&& \\ \hline
+      S1&S2&S3&& \\ \hline
+      S1&S2&S3&S4& \\ \hline
+      S1&S2&S3&S4&S5 \\ \hline
+      S6&S2&S3&S4&S5 \\ \hline
+      S6&S7&S3&S4&S5 \\ \hline
+      S6&S7&S1&S4&S5 \\ \hline
+      S6&S7&S1&S2&S5 \\ \hline
+      S6&S7&S1&S2&S3 \\ \hline
+    \end{tabular}
+  \end{center}
+  一方でLRUを用いた格納方式は以下のように格納される.
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|} \hline
+      B1&B2&B3&B4&B5\\ \hline\hline
+      S1&&&& \\ \hline
+      S1&S2&&& \\ \hline
+      S1&S2&S3&& \\ \hline
+      S1&S2&S3&S4& \\ \hline
+      S1&S2&S3&S4&S5 \\ \hline
+      S1&S2&S6&S4&S5 \\ \hline
+      S1&S2&S6&S7&S5 \\ \hline
+      S1&S2&S6&S7&S3 \\ \hline
+    \end{tabular}
+  \end{center}
+\end{enumerate}
+\newpage
+\section{}
+\subsection{回路理論・論理回路}
+\subsubsection{問題例}
+以下の全てに答えよ。なお, 回路図(circuit diagram)の記号(symbol)は, 現在のJISの記号(IEC準拠)を用い, 古い記号は用いないこと。
+\begin{enumerate}[(1)]
+  \setlength{\itemsep}{15pt}
+\item ある直流電源回路(direct-current power source circuit)の端子(terminal)に40$\Omega$の抵抗(resistance)を接続すると2Aの電流(current)が流れ, 端子を短絡(short)すると10Aの電流が流れた。この直流電源を電圧源(voltage source)と内部抵抗(internal resistance)から成るものと考えて, 以下の問に答えよ。
+  \begin{enumerate}[(${1}-$a)]
+    \setlength{\itemsep}{15pt}
+  \item この電源回路の開放電圧(open-circuit voltage)はいくらか。
+  \item この電源回路が外部不可(external load)に供給し得る最大電力(maximum power)はいくらか。
+  \item この電源で 50V 100Wの電球(incandescent lamp)を点灯したい。電球に直列(series)に抵抗(resistor)1個を接続するとすると, 抵抗の値をいくらにしたらよいか。回路図を描いて説明せよ。
+  \end{enumerate}
+\item アナログ復調回路(analog demodulation circuit)に関して以下の問に答えよ。
+  \begin{enumerate}[(${2}-$a)]
+    \setlength{\itemsep}{15pt}
+  \item 振幅変調(amplitude modulation)の最も簡単な受信機(receiver), いわゆるゲルマニウムラジオ(crystal radio receiver)を作りたい。アンテナ(antenna)単位氏からイヤホン(earphone)端子までの回路図を描け。部品は, 相互インダクタ(mutual inductor)1個, 可変キャパシタ(variable capacitor)1個, ダイオード(diode)1個, 抵抗1個, 固定キャパシタ(fixed capacitor)1個である。ただし, 製作に当たっては, これらの他にリード線(lead wire), 端子板, ハンダなども用いる。
+  \item 前述の振幅変調の復調回路を二つ組み合わせることによって, 周波数変調(frequency modulation)の最も簡単な復調回路である二同調回路を作ることができる。その回路図を描け。
+  \item 二同調回路でなぜ周波数変調が復調できるのか, 周波数(frequency)対出力電圧(output voltage)のグラフを描いて説明せよ。
+  \end{enumerate}
+\end{enumerate}
+\newpage
+\subsubsection{解答例}
+\begin{enumerate}[(1)]
+  \setlength{\itemsep}{15pt}
+\item　
+    \begin{minipage}{7cm}
+    \begin{center}
+      \begin{tikzpicture}[>=stealth]
+        \draw(0.6,0.4)--(0.6,-0.4);
+        \draw(0.7,0.2)--(0.7,-0.2);
+        \draw(0.6,0)--(-1.5,0)--(-1.5,1.3)--(1.5,1.3)--(1.5,0)--(0.7,0);
+        \draw[fill=white](-0.8,-0.2) rectangle (0,0.2);
+        \node at(-0.4,0) {$r$};
+        \draw[dashed] (-1,-0.55) rectangle (0.85,0.55);
+        \draw[fill=white] (-0.4,1.1) rectangle (0.4,1.5);
+        \node at(0,1.3) {\small $40\Omega$};
+        \draw[->](1.7,1.2)--(1.7,0.1);
+        \node at(2.1,0.65) {2A};
+      \end{tikzpicture}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}{7cm}
+    \begin{center}
+      \begin{tikzpicture}
+        \draw(0.6,0.4)--(0.6,-0.4);
+        \draw(0.7,0.2)--(0.7,-0.2);
+        \draw(0.6,0)--(-1.5,0)--(-1.5,1.3)--(1.5,1.3)--(1.5,0)--(0.7,0);
+        \draw[fill=white](-0.8,-0.2) rectangle (0,0.2);
+        \node at(-0.4,0) {$r$};
+        \draw[dashed] (-1,-0.55) rectangle (0.85,0.55);
+        \draw[->](1.7,1.2)--(1.7,0.1);
+        \node at(2.2,0.65) {10A};
+      \end{tikzpicture}
+    \end{center}
+  \end{minipage}
+  \vspace{0.6cm}
   
+  \begin{enumerate}[(${1}-$a)]
+    \setlength{\itemsep}{15pt}
+  \item 開放電圧を$v$とし, その抵抗を$r$ とする. 40$\Omega$の抵抗を加えたときの回路方程式は
+    \begin{eqnarray*}
+      2\cdot (40+r) = v 
+    \end{eqnarray*}
+    また, 端子を短絡したときの回路方程式は
+    \begin{eqnarray*}
+      10\cdot r = v
+    \end{eqnarray*}
+    これを解くと$v=100,\,r=10$, したがって, 開放電圧は\underline{\bf 100V}である.
+  \item 端子を短絡すると10A流れて, 開放電圧は100Vであるから最大電力は
+    \begin{eqnarray*}
+      10\cdot 100 = \underline{\bf 1{\rm kW}}
+    \end{eqnarray*}
+  \item 回路図は以下のようにかける. ここで豆電球をILと表記する.
+        \begin{center}
+      \begin{tikzpicture}
+        \draw(0.6,0.4)--(0.6,-0.4);
+        \draw(0.7,0.2)--(0.7,-0.2);
+        \draw(0.6,0)--(-1.5,0)--(-1.5,1.3)--(1.5,1.3)--(1.5,0)--(0.7,0);
+        \draw[fill=white](-0.8,-0.2) rectangle (0,0.2);
+        \node at(-0.4,0) {$r$};
+        \draw[dashed] (-1,-0.55) rectangle (0.85,0.55);
+        \draw[->](1.7,1.2)--(1.7,0.1);
+        \node at(1.9,0.65) {$i$};
+        \draw[fill=white] (0.2,1.1) rectangle (1,1.5);
+        \node at(0.6,1.3) {$r'$};
+        \draw[fill=white] (-0.8,1.3) circle[radius=0.28];
+        \node at(-0.8,1.3) {IL};
+      \end{tikzpicture}
+    \end{center}
+    電球は50V, 100Wなので流れる電流は
+    \begin{eqnarray*}
+      i = 100\div 50 = 2{\rm A}
+    \end{eqnarray*}
+    となる. ゆえに回路の方程式は
+    \begin{eqnarray*}
+      &&ir+ir' = v-50\\
+      \Longleftrightarrow\ && 2\cdot 10+2r' = 50\\
+      \Longleftrightarrow\ && r' = 15
+    \end{eqnarray*}
+    よって, 抵抗の値を\underline{\bf 15$\Omega$}にすればよい.
+  \end{enumerate}
+\end{enumerate}
+\newpage
+\section{}
+\subsection{情報通信ネットワーク}
+\subsubsection{問題例}
+\begin{enumerate}[(1)]
+\item OSI参照モデル(OSI\ reference model) のプロトコル改装(protocol hierarchy)のうち, 以下に該当する階層の名称を答えよ。
+  \begin{enumerate}[(${1}-$a)]
+  \item 主として物理的に隣接する機器間の通信を行う機能を実現する階層
+  \item  ネットワークの末端に接続された機器間の通信を行う機能を実現する階層
+  \end{enumerate}
+\item TCPでは服装ウィンドウ(congestion window)を使ったフロー制御(flow control)が行われる。\\
+  TCP Renoにはスロースタートフェーズ(slow start phase)と輻輳回避フェーズ(congestion avoidance phase)という二つの状態が定義されている。ネットワークが混雑していないと仮定したときに, 輻輳ウィンドウサイズがどのように増加するのか, スロースタートフェーズと輻輳回避フェーズの場合についてそれぞれ説明せよ。
+\item あるコンピュータのIPアドレスとサブネットマスクが192.168.100.226/28であるとする。このコンピュータが属するサブネットのネットワークアドレスとブロードキャストアドレスを答えよ。
+\item 以下の図はある Autonomous Systemの構成を表すものとする。辺(edge)に付与された数字は各辺のコストとする。Router1,\ 2,\ 3,\ 4を結ぶ辺はブロードキャスト接続(broadcast link)を表し, そのコストは1である。このとき, NW AからNW Dまでの経路として, RIPとOSPFそれぞれによって選択される経路を答えよ。
+\item CSMA/CDとCSMA/CAの違いを説明せよ。
 \end{enumerate}
 \end{document}
