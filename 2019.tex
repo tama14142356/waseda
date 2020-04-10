@@ -46,7 +46,7 @@
 
 %%%====================================================================================================================================
 %%ページのレイアウト設定
-\pagestyle{fancy}
+%\pagestyle{fancy}
 \renewcommand{\sectionmark}[1]{\markboth{}{\thesection\ #1}}%                   %\rightmarkにセクション名を格納
 \renewcommand{\subsectionmark}[1]{\markboth{#1}{\rightmark}}%   %\leftmarkにサブセクション名を格納
 %[]は省略可で省略すると{}で指定された内容が偶数ページ奇数のどちらにも適用される.
@@ -323,7 +323,7 @@
 \newpage
 \section{}
 \subsection{回路理論・論理回路}
-\subsubsection{問題例}
+\subsubsection{問題文}
 以下の全てに答えよ。なお, 回路図(circuit diagram)の記号(symbol)は, 現在のJISの記号(IEC準拠)を用い, 古い記号は用いないこと。
 \begin{enumerate}[(1)]
   \setlength{\itemsep}{15pt}
@@ -427,17 +427,60 @@
 \newpage
 \section{}
 \subsection{情報通信ネットワーク}
-\subsubsection{問題例}
+\subsubsection{問題文}
 \begin{enumerate}[(1)]
-\item OSI参照モデル(OSI\ reference model) のプロトコル改装(protocol hierarchy)のうち, 以下に該当する階層の名称を答えよ。
+  \setlength{\itemsep}{15pt}
+\item OSI参照モデル(OSI\ reference model) のプロトコル階層(protocol hierarchy)のうち, 以下に該当する階層の名称を答えよ。
   \begin{enumerate}[(${1}-$a)]
+    \setlength{\itemsep}{5pt}
   \item 主として物理的に隣接する機器間の通信を行う機能を実現する階層
   \item  ネットワークの末端に接続された機器間の通信を行う機能を実現する階層
   \end{enumerate}
 \item TCPでは服装ウィンドウ(congestion window)を使ったフロー制御(flow control)が行われる。\\
   TCP Renoにはスロースタートフェーズ(slow start phase)と輻輳回避フェーズ(congestion avoidance phase)という二つの状態が定義されている。ネットワークが混雑していないと仮定したときに, 輻輳ウィンドウサイズがどのように増加するのか, スロースタートフェーズと輻輳回避フェーズの場合についてそれぞれ説明せよ。
 \item あるコンピュータのIPアドレスとサブネットマスクが192.168.100.226/28であるとする。このコンピュータが属するサブネットのネットワークアドレスとブロードキャストアドレスを答えよ。
-\item 以下の図はある Autonomous Systemの構成を表すものとする。辺(edge)に付与された数字は各辺のコストとする。Router1,\ 2,\ 3,\ 4を結ぶ辺はブロードキャスト接続(broadcast link)を表し, そのコストは1である。このとき, NW AからNW Dまでの経路として, RIPとOSPFそれぞれによって選択される経路を答えよ。
+\item 以下の図はある Autonomous Systemの構成を表すものとする。辺(edge)に付与された数字は各辺のコストとする。Router1,\ 2,\ 3,\ 4を結ぶ辺はブロードキャスト接続(broadcast link)を表し, そのコストは1である。このとき, NW AからNW Dまでの経路として, RIPとOSPFそれぞれによって選択される経路を答えよ。\\
+  \begin{center}
+    \includegraphics[width=10cm]{net.png}
+  \end{center}
 \item CSMA/CDとCSMA/CAの違いを説明せよ。
 \end{enumerate}
+\newpage
+
+\subsubsection{解答例}
+\begin{enumerate}[(1)]
+  \setlength{\itemsep}{15pt}
+\item OSI参照モデルについて以下に示す.
+  \begin{center}
+    \begin{tabular}{|c|c|} \hline
+      第7層&アプリケーション層 \\ \hline
+      第6層&プレゼンテーション層 \\ \hline
+      第5層&セション層 \\ \hline
+      第4層&トランスポート層 \\ \hline
+      第3層&ネットワーク層 \\ \hline
+      第2層&データリンク層 \\ \hline
+      第1層&物理層 \\ \hline
+    \end{tabular}
+  \end{center}
+  \begin{itemize}
+  \item 物理層 … 機器と機器とを「物理的につなぐ」ことに関してルールを定める層
+  \item データリンク層 … 「同じネットワーク内」にいる通信機器とのやり取りに関してルールを定める層
+  \item ネットワーク層 … 「異なるネットワーク」とのやり取りに関してルールを定める層
+  \item トランスポート層 … 「データの品質管理」に関してルールを定める層
+  \item セション層 … 「最終的な通信の目的にあわせた送受信管理」のルールを定める層
+  \item プレゼンテーション層 … 「データの表現形式」について取り決める層
+  \item アプリケーション層 … 「アプリケーションソフトがやり取りする情報」について取り決める層
+  \end{itemize}
+  \vspace{0.3cm}
+  
+  \begin{enumerate}[({1}$-$a)]
+    \setlength{\itemsep}{5pt}
+  \item 物理的に隣接する機器間の通信なので\underline{\bf 物理層}
+  \item ネットワークの末端, つまり同じnネットワーク内の通信なので, \underline{\bf データリンク層}
+  \end{enumerate}
+\item 
+\end{enumerate}
+\index{ティック@tikz}
+% \printindex
+
 \end{document}
